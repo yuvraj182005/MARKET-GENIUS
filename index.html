@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarketGenius - Advanced Stock Analysis</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvNn/ELrX/zC71/9Qu9f/ULvX/zC71/8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu9f/MLvX/9C71//vu9f/77vX/++71//vu9f/0LvX/zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC71/8Qu9f/0LvX/++71//vu9f/77vX/++71//vu9f/77vX/++71//Qu9f/EAAAAAAAAAAAAAAAAAAAAAAAAAAAu9f/0LvX/++71//vu9f/77vX/++71//vu9f/77vX/++71//vu9f/0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALvX/1C71//vu9f/77vX/++71//vu9f/77vX/++71//vu9f/MLvX/xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC71/9Qu9f/77vX/++71//vu9f/77vX/++71//vu9f/u9f/MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3fP/EKrR/1Cq0f9wqtH/cKrR/1DM5v8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu9f/ELvX/zC71/9Qu9f/ULvX/zC71/8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu9f/MLvX/9C71//vu9f/77vX/++71//vu9f/0LvX/zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC71/8Qu9f/0LvX/++71//vu9f/77vX/++71//vu9f/77vX/++71//Qu9f/EAAAAAAAAAAAAAAAAAAAAAAAAAAAu9f/0LvX/++71//vu9f/77vX/++71//vu9f/77vX/++71//vu9f/0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALvX/1C71//vu9f/77vX/++71//vu9f/77vX/++71//vu9f/MLvX/xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC71/9Qu9f/77vX/++71//vu9f/77vX/++71//vu9f/u9f/MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3fP/EKrR/1Cq0f9wqtH/cKrR/1DM5v8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+  <script src="https://cdn.jsdelivr.net/npm/technicalindicators/dist/browser.es6.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="fas fa-chart-line"></i>
+      <span>MarketGenius</span>
+    </div>
+    <div class="nav-links">
+      <a href="#dashboard" class="active">Dashboard</a>
+      <a href="#analysis">Analysis</a>
+      <a href="#predictions">Predictions</a>
+      <a href="#market-news">Market News</a>
+    </div>
+  </nav>
+
+  <div id="dashboard" class="dashboard">
+    <div class="sidebar">
+      <div class="market-overview">
+        <h3>Market Overview</h3>
+        <div id="market-stats">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+      <div class="watchlist">
+        <h3>Watchlist</h3>
+        <div id="watchlist-items">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="header-section">
+        <div class="stock-selector">
+          <select id="symbolSelect">
+            <optgroup label="Market Indices">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+            <optgroup label="Popular Stocks">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+          </select>
+          <div class="time-frame-selector">
+            <button class="time-btn active" data-days="7">1W</button>
+            <button class="time-btn" data-days="30">1M</button>
+            <button class="time-btn" data-days="90">3M</button>
+            <button class="time-btn" data-days="180">6M</button>
+            <button class="time-btn" data-days="365">1Y</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-controls">
+          <div class="indicators">
+            <button class="indicator-btn" data-indicator="sma">SMA</button>
+            <button class="indicator-btn" data-indicator="ema">EMA</button>
+            <button class="indicator-btn" data-indicator="rsi">RSI</button>
+            <button class="indicator-btn" data-indicator="macd">MACD</button>
+          </div>
+          <div class="chart-types">
+            <button class="chart-type-btn active" data-type="line">
+              <i class="fas fa-chart-line"></i>
+            </button>
+            <button class="chart-type-btn" data-type="candlestick">
+              <i class="fas fa-chart-bar"></i>
+            </button>
+          </div>
+        </div>
+        <canvas id="mainChart"></canvas>
+        <canvas id="volumeChart"></canvas>
+        <canvas id="rsiChart" style="display: none;"></canvas>
+        <canvas id="macdChart" style="display: none;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis Section (separate from dashboard) -->
+  <div id="analysis" class="analysis-section hidden">
+    <div class="main-content">
+      <h2>Technical Analysis</h2>
+      
+      <div class="header-section">
+        <div class="stock-selector">
+          <select id="analysisSymbolSelect">
+            <optgroup label="Market Indices">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+            <optgroup label="Popular Stocks">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="technical-indicators">
+        <h3>Technical Indicators</h3>
+        <div id="indicator-values">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Predictions Section (separate from dashboard) -->
+  <div id="predictions" class="prediction-section hidden">
+    <div class="main-content">
+      <h2>Stock Price Prediction</h2>
+      
+      <div class="header-section">
+        <div class="stock-selector">
+          <select id="predictionSymbolSelect">
+            <optgroup label="Market Indices">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+            <optgroup label="Popular Stocks">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="prediction-panel">
+        <h3>Price Prediction</h3>
+        <div class="prediction-inputs">
+          <input type="date" id="dateInput" min="" />
+          <button onclick="predictStock()" class="predict-btn">
+            <i class="fas fa-magic"></i> Predict
+          </button>
+        </div>
+        <div class="prediction-note">
+          <small><i class="fas fa-info-circle"></i> Note: Markets are closed on weekends. Please select a weekday (Monday-Friday).</small>
+        </div>
+        <div id="prediction" class="prediction-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Market News Section (separate from dashboard) -->
+  <div id="market-news" class="market-sentiment hidden">
+    <div class="main-content">
+      <h2>Market Sentiment & News</h2>
+      
+      <div class="header-section">
+        <div class="stock-selector">
+          <select id="sentimentSymbolSelect">
+            <optgroup label="Market Indices">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+            <optgroup label="Popular Stocks">
+              <!-- Will be populated by JavaScript -->
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      
+      <div class="sentiment-indicators">
+        <div class="sentiment-gauge">
+          <canvas id="sentimentGauge"></canvas>
+          <span id="sentimentLabel">Overall Sentiment</span>
+        </div>
+        <div class="trading-signals">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js?v=4"></script>
+  <script src="spa-tabs.js"></script>
+</body>
+</html>
